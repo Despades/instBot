@@ -117,9 +117,7 @@ class InstDespadesBot(QtWidgets.QMainWindow):
             if e.key() == QtCore.Qt.Key_Delete:
                 n = self.ui.url_list.currentRow()
                 self.ui.url_list.takeItem(n)#удалит текущий элемент по нажатию клавиши delete, надо написать код на вызов диалоговогоокна
-        #print(e.key())
-        #if e.key() == QtCore.Qt.Key_Delete:
-        #    print('Вы вызвали удаление элемента нажатием клавиши delete')
+
 
     #спрашиваем, отписаться нам от неподписавшихся на нас пользователей
     def handleButton(self):
