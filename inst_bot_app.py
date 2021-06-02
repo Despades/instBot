@@ -17,7 +17,7 @@ from auth_data import username, password
 
 
 
-
+#центральный файл приложения
 class InstDespadesBot(QtWidgets.QMainWindow):
     def __init__(self, parent = None):
         QtWidgets.QTabWidget.__init__(self, parent)
