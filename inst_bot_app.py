@@ -26,14 +26,8 @@ class InstDespadesBot(QtWidgets.QMainWindow):
         self.chrome_opt = webdriver.ChromeOptions()
         self.chrome_opt.add_argument('--disable-gpu')#если не запускается и выдает ошибки, связанные с gpu
         self.browser = webdriver.Chrome('./drivers/chromedriver', chrome_options = self.chrome_opt)
-        #self.browser.close()
-        
-        #self.posts_urls = []
-        #self.friends_urls = [] #список хранящий ссылки на подписчиков выбранного пользователя
-        #self.following_urls =[] #список хранящий ссылки на наши подписки
-        #self.sistem_settings = {}
+
         self.message_layout = QtWidgets.QVBoxLayout()#непосредственный контейнер для системных сообщений, в него складываем QLabel
-        #self.message_layout.setSizeConstraint(QtWidgets.QLayout.SetFixedSize)
         self.widget_messages = QtWidgets.QWidget()#контейнер для message_container, так как напрямую message_layout нельзя ложить в self.ui.sistem_message_area
         self.widget_messages.setLayout(self.message_layout)
         self.ui.sistem_message_area.setWidget(self.widget_messages)#область вывода системных сообщений
@@ -52,15 +46,6 @@ class InstDespadesBot(QtWidgets.QMainWindow):
         self.ui.autorization_button.clicked.connect(self.thread_login.start)
         self.worker_login.selenium_login.connect(self.alert_message, QtCore.Qt.QueuedConnection)
 
-
-        # создадим поток для функции выбора задач SeleniumWorkerTask.choice_task() - поставить лайки постам пользователя/ подписаться на подписчиков пользователя / скачать контент пользователя
-        # self.thread_task = QtCore.QThread()
-        # self.worker_task = SeleniumWorkerTask(self)
-        # self.worker_task.moveToThread(self.thread_task)
-        # self.thread_task.started.connect(self.worker_task.choice_task)
-        # self.ui.make_task.clicked.connect(self.thread_task.start)
-        # self.worker_task.selenium_task.connect(self.alert_message, QtCore.Qt.QueuedConnection)
-        # self.worker_task.selenium_task_progress.connect(self.progress_value, QtCore.Qt.QueuedConnection)
         self.ui.make_task.clicked.connect(self.run_userpage_task)
         self.ui.delete_unfollow_user.clicked.connect(self.run_userpage_task)
         self.ui.final_delete_users.clicked.connect(self.run_userpage_task)
@@ -116,11 +101,8 @@ class InstDespadesBot(QtWidgets.QMainWindow):
                 self.worker_task.selenium_task_clearUnfollowList.connect(self.clear_url_list, QtCore.Qt.QueuedConnection)
                 self.handleButton()
                 return
-        #self.worker_task.selenium_task.connect(self.alert_message, QtCore.Qt.QueuedConnection)
-        #self.worker_task.selenium_task_progress.connect(self.progress_value, QtCore.Qt.QueuedConnection)
-        #self.thread_task.start()
+            
         self.final_workerOperation()
-        #print('При удалении подписчиков эту надпись мы видеть не должны')
 
     #функция открытия стрницы по кликнутой в списке ссылке
     @QtCore.pyqtSlot()
@@ -139,7 +121,7 @@ class InstDespadesBot(QtWidgets.QMainWindow):
         #if e.key() == QtCore.Qt.Key_Delete:
         #    print('Вы вызвали удаление элемента нажатием клавиши delete')
 
-
+    #спрашиваем, отписаться нам от неподписавшихся на нас пользователей
     def handleButton(self):
         buttonReply = QtWidgets.QMessageBox.question(self, 'Подтверждение удаления', "Удалить неподписавшихся?", QtWidgets.QMessageBox.Yes | QtWidgets.QMessageBox.No,  QtWidgets.QMessageBox.No)
         
